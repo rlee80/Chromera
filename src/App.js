@@ -1,13 +1,43 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import { Button, Box, Grid, TextField } from "@material-ui/core";
 import {
-  LineChart,
-  Line,
   BarChart,
-  PieChart,
-  ScatterChart,
-  AreaChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from "recharts";
+
+// Should be derived from user inputs
+const data = [
+  {
+    name: "Year 1",
+    "Base Salary": 100000,
+    Stock: 60000,
+    Bonus: 3000,
+  },
+  {
+    name: "Year 2",
+    "Base Salary": 120000,
+    Stock: 60000,
+    Bonus: 2400,
+  },
+  {
+    name: "Year 3",
+    "Base Salary": 140000,
+    Stock: 60000,
+    Bonus: 2400,
+  },
+  {
+    name: "Year 4",
+    "Base Salary": 160000,
+    Stock: 60000,
+    Bonus: 2400,
+  },
+];
 
 function App() {
   return (
@@ -16,19 +46,15 @@ function App() {
 
       <Grid container direction="row" justify="center" alignItems="center">
         <Box>
-          {/* Add Salary  */}
-          {/* Main 2 Columns */} {/* Main Column 1 */}
           <con
             container
             d
-            justify="center"
-            ali
+            rid
             container
             direction="row"
             justify="center"
             alignItems="center"
           >
-            {/* Column 1 Subcolumn */}
             <Grid
               container
               direction="column"
@@ -62,16 +88,17 @@ function App() {
               ></TextField>
             </Grid>
           </con>
-          {/* Column 1 Subcolumn */}
+
           <Grid
             container
             direction="column"
             justify="center"
             alignItems="center"
-          ></Grid>
+          >
+            <CompensationChart></CompensationChart>
+          </Grid>
         </Box>
 
-        {/* Main Column 2 */}
         <Grid
           container
           direction="column"
@@ -84,3 +111,30 @@ function App() {
 }
 
 export default App;
+
+class CompensationChart extends PureComponent {
+  render() {
+    return (
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="Base Salary" stackId="a" fill="#8884d8" />
+        <Bar dataKey="Stock" stackId="a" fill="#82ca9d" />
+        <Bar dataKey="Bonus" fill="#ffc658" />
+      </BarChart>
+    );
+  }
+}
