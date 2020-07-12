@@ -176,121 +176,204 @@ function App() {
           <StatePicker></StatePicker>
         </Grid>
         <Grid item xs={4}>
-          <h2>Your Market Value: {data.first}</h2>
+          <div
+            style={{
+              backgroundColor: "#7f6096",
+              padding: 10,
+              borderRadius: 10,
+            }}
+          >
+            <h2 style={{ color: "#fff" }}>Your Market Value: </h2>
+            <h1 style={{ color: "#fff", fontSize: 46 }}>${data.first}</h1>
+          </div>
         </Grid>
         <Grid item xs={3}>
-          <Box p={3}>
-            <CurrencyTextField
-              label="Salary (yearly)"
-              color="secondary"
-              currencySymbol="$"
-              value={data.first}
-              onChange={(e) => {
-                setData({
-                  first: e.target.value,
-                  second: getAnnualRaise(2, e.target.value, data.percentRaise),
-                  third: getAnnualRaise(3, e.target.value, data.percentRaise),
-                  fourth: getAnnualRaise(4, e.target.value, data.percentRaise),
-                  percentRaise: data.percentRaise,
-                  targetBonus: data.targetBonus,
-                  fourYrRSU: data.fourYrRSU,
-                  vestPercent: data.vestPercent,
-                });
+          <Box p={2}>
+            <div
+              style={{
+                backgroundColor: "#e1e4f0",
+                padding: 20,
+                borderRadius: 10,
               }}
-            ></CurrencyTextField>
+            >
+              <CurrencyTextField
+                label="Salary (yearly)"
+                color="secondary"
+                currencySymbol="$"
+                value={data.first}
+                onChange={(e) => {
+                  setData({
+                    first: e.target.value,
+                    second: getAnnualRaise(
+                      2,
+                      e.target.value,
+                      data.percentRaise
+                    ),
+                    third: getAnnualRaise(3, e.target.value, data.percentRaise),
+                    fourth: getAnnualRaise(
+                      4,
+                      e.target.value,
+                      data.percentRaise
+                    ),
+                    percentRaise: data.percentRaise,
+                    targetBonus: data.targetBonus,
+                    fourYrRSU: data.fourYrRSU,
+                    vestPercent: data.vestPercent,
+                  });
+                }}
+              ></CurrencyTextField>
+            </div>
           </Box>
 
-          <Box p={3}>
-            <CurrencyTextField
-              label="Annual Raise (%)"
-              currencySymbol="%"
-              value={data.percentRaise}
-              onChange={(e) => {
-                setData({
-                  first: data.first,
-                  second: getAnnualRaise(2, data.first, e.target.value),
-                  third: getAnnualRaise(3, data.first, e.target.value),
-                  fourth: getAnnualRaise(4, data.first, e.target.value),
-                  percentRaise: e.target.value,
-                  targetBonus: data.targetBonus,
-                  fourYrRSU: data.fourYrRSU,
-                  vestPercent: data.vestPercent,
-                });
+          <Box p={2}>
+            <div
+              style={{
+                backgroundColor: "#e1e4f0",
+                padding: 20,
+                borderRadius: 10,
               }}
-            ></CurrencyTextField>
+            >
+              <CurrencyTextField
+                label="Annual Raise (%)"
+                currencySymbol="%"
+                value={data.percentRaise}
+                onChange={(e) => {
+                  setData({
+                    first: data.first,
+                    second: getAnnualRaise(2, data.first, e.target.value),
+                    third: getAnnualRaise(3, data.first, e.target.value),
+                    fourth: getAnnualRaise(4, data.first, e.target.value),
+                    percentRaise: e.target.value,
+                    targetBonus: data.targetBonus,
+                    fourYrRSU: data.fourYrRSU,
+                    vestPercent: data.vestPercent,
+                  });
+                }}
+              ></CurrencyTextField>
+            </div>
           </Box>
-          <Box p={3}>
-            <CurrencyTextField
-              label="Performance Bonus ($)"
-              currencySymbol="$"
-              value={data.targetBonus}
-              onChange={(e) => {
-                setData({
-                  first: data.first,
-                  second: data.second,
-                  third: data.third,
-                  fourth: data.fourth,
-                  percentRaise: data.percentRaise,
-                  targetBonus: e.target.value,
-                  fourYrRSU: data.fourYrRSU,
-                  vestPercent: data.vestPercent,
-                });
-                // updateLink(url);
+          <Box p={2}>
+            <div
+              style={{
+                backgroundColor: "#e1e4f0",
+                padding: 20,
+                borderRadius: 10,
               }}
-            ></CurrencyTextField>
+            >
+              <CurrencyTextField
+                label="Performance Bonus ($)"
+                currencySymbol="$"
+                value={data.targetBonus}
+                onChange={(e) => {
+                  setData({
+                    first: data.first,
+                    second: data.second,
+                    third: data.third,
+                    fourth: data.fourth,
+                    percentRaise: data.percentRaise,
+                    targetBonus: e.target.value,
+                    fourYrRSU: data.fourYrRSU,
+                    vestPercent: data.vestPercent,
+                  });
+                  // updateLink(url);
+                }}
+              ></CurrencyTextField>
+            </div>
           </Box>
-          <Box p={3}>
-            <CurrencyTextField
-              label="Stock Award Value (4 years)"
-              currencySymbol="$"
-              value={data.fourYrRSU}
-              onChange={(e) => {
-                setData({
-                  first: data.first,
-                  second: data.second,
-                  third: data.third,
-                  fourth: data.fourth,
-                  percentRaise: data.percentRaise,
-                  targetBonus: data.targetBonus,
-                  fourYrRSU: e.target.value,
-                  vestPercent: data.vestPercent,
-                });
-                // updateLink(url);
+          <Box p={2}>
+            <div
+              style={{
+                backgroundColor: "#e1e4f0",
+                padding: 20,
+                borderRadius: 10,
               }}
-            ></CurrencyTextField>
+            >
+              <CurrencyTextField
+                label="Stock Award Value (4 years)"
+                currencySymbol="$"
+                value={data.fourYrRSU}
+                onChange={(e) => {
+                  setData({
+                    first: data.first,
+                    second: data.second,
+                    third: data.third,
+                    fourth: data.fourth,
+                    percentRaise: data.percentRaise,
+                    targetBonus: data.targetBonus,
+                    fourYrRSU: e.target.value,
+                    vestPercent: data.vestPercent,
+                  });
+                  // updateLink(url);
+                }}
+              ></CurrencyTextField>
+            </div>
           </Box>
-          <Box p={3}>
-            <CurrencyTextField
-              label="Yearly Vest Amount (%)"
-              currencySymbol="%"
-              value={data.vestPercent}
-              onChange={(e) => {
-                setData({
-                  first: data.first,
-                  second: data.second,
-                  third: data.third,
-                  fourth: data.fourth,
-                  percentRaise: data.percentRaise,
-                  targetBonus: data.targetBonus,
-                  fourYrRSU: data.fourYrRSU,
-                  vestPercent: e.target.value,
-                });
-                // updateLink(url);
+          <Box p={2}>
+            <div
+              style={{
+                backgroundColor: "#e1e4f0",
+                padding: 20,
+                borderRadius: 10,
               }}
-            ></CurrencyTextField>
+            >
+              <CurrencyTextField
+                label="Yearly Vest Amount (%)"
+                currencySymbol="%"
+                value={data.vestPercent}
+                onChange={(e) => {
+                  setData({
+                    first: data.first,
+                    second: data.second,
+                    third: data.third,
+                    fourth: data.fourth,
+                    percentRaise: data.percentRaise,
+                    targetBonus: data.targetBonus,
+                    fourYrRSU: data.fourYrRSU,
+                    vestPercent: e.target.value,
+                  });
+                  // updateLink(url);
+                }}
+              ></CurrencyTextField>
+            </div>
           </Box>
         </Grid>
         <Grid item xs={6}>
-          <h3>Projected Total Compensation</h3>
-          <CompensationBar value={graphData}></CompensationBar>
-          <h3>Compensation Breakdown</h3>
-          <CompensationPie value={graphData}></CompensationPie>
+          <div
+            style={{ backgroundColor: "#e1e4f0", padding: 2, borderRadius: 10 }}
+          >
+            <h3>Projected Total Compensation</h3>
+            <CompensationBar value={graphData}></CompensationBar>
+          </div>
+          <div
+            style={{
+              backgroundColor: "#e1e4f0",
+              padding: 2,
+              marginTop: 20,
+              borderRadius: 10,
+            }}
+          >
+            <h3>Compensation Breakdown</h3>
+            <CompensationPie value={graphData}></CompensationPie>
+          </div>
         </Grid>
         <Grid item xs={3}>
-          <h3>Tax Breakdown</h3>
-          <TaxPie value={graphData}></TaxPie>
-          <h3>Recent Entries</h3>
-          <RecentDataScatter value={graphData}></RecentDataScatter>
+          <div
+            style={{ backgroundColor: "#e1e4f0", padding: 2, borderRadius: 10 }}
+          >
+            <h3>Tax Breakdown</h3>
+            <TaxPie value={graphData}></TaxPie>
+          </div>
+          <div
+            style={{
+              backgroundColor: "#e1e4f0",
+              padding: 2,
+              marginTop: 20,
+              borderRadius: 10,
+            }}
+          >
+            <h3>Recent Entries</h3>
+            <RecentDataScatter value={graphData}></RecentDataScatter>
+          </div>
         </Grid>
       </Grid>
     </div>

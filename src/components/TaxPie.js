@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { PieChart, Pie, Sector, Cell } from "recharts";
 
 const data = [
-  { name: "Group A", value: 400 },
+  { name: "Federal Tax", value: 400 },
   { name: "Group B", value: 300 },
   { name: "Group C", value: 300 },
   { name: "Group D", value: 200 },
@@ -12,7 +12,7 @@ const COLORS = ["#C7A5F1", "#858C94", "#C6CCE3", "#9FA8E0"];
 export default class TaxPie extends PureComponent {
   render() {
     return (
-      <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
+      <PieChart width={350} height={400} onMouseEnter={this.onPieEnter}>
         <Pie
           data={data}
           cx={120}

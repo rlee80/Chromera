@@ -12,7 +12,7 @@ const COLORS = ["#CB4DBC", "#624975", "#D8C7F0"];
 export default class CompensationPie extends PureComponent {
   render() {
     return (
-      <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
+      <PieChart width={300} height={400} onMouseEnter={this.onPieEnter}>
         <Pie
           data={data}
           cx={120}
