@@ -31,7 +31,7 @@ export default class RecentDataScatter extends PureComponent {
   render() {
     return (
       <ScatterChart
-        width={500}
+        width={350}
         height={400}
         margin={{
           top: 20,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, TextField, Button, Grid } from "@material-ui/core";
+import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import CompensationBar from "./components/CompensationBar";
 import CompensationPie from "./components/CompensationPie";
 import TaxPie from "./components/TaxPie";
@@ -15,96 +16,151 @@ function getAnnualRaise(finalYr, baseSalary, percentRaise) {
 }
 
 function App() {
-  const [salaries, setSalaries] = useState({
+  const [data, setData] = useState({
     first: 0,
     second: 0,
     third: 0,
     fourth: 0,
+    percentRaise: 0,
+    targetBonus: 0,
+    fourYrRSU: 0,
+    vestPercent: 25,
   });
-  const [secondSalary, setSecondSalary] = useState(0);
-  const [thirdSalary, setThirdSalary] = useState(0);
-  const [fourthSalary, setFourthSalary] = useState(0);
-  const [percentRaise, setPercentRaise] = useState(0);
-  const [targetBonus, setTargetBonus] = useState(0);
-  const [fourYrRSU, setFourYrRSU] = useState(0);
-  const [vestPercent, setVestPercent] = useState(25);
+
   const [url, setURL] = useState("default");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    // console.log(window.location.href);
+
+    //get current word url
+    var fullurl = window.location.href;
+    fullurl = fullurl.split("/");
+    var cururl = fullurl[fullurl.length - 1];
+
+    console.log(loaded);
+    if (!loaded) {
+      //url exists
+      if (cururl.length > 0) {
+        loadData(cururl);
+      } else {
+        addLink();
+      }
+    }
+
     // addLink();
   });
 
-  const data = [
+  useEffect(() => {
+    updateLink(url);
+  }, [data]);
+
+  const graphData = [
     {
       name: "Year 1",
-      "Base Salary": salaries.first,
-      Stock: fourYrRSU / (100 / vestPercent),
-      Bonus: targetBonus,
+      "Base Salary": data.first,
+      Stock: data.fourYrRSU / (100 / data.vestPercent),
+      Bonus: data.targetBonus,
     },
     {
       name: "Year 2",
-      "Base Salary": salaries.second,
-      Stock: fourYrRSU / (100 / vestPercent),
-      Bonus: targetBonus,
+      "Base Salary": data.second,
+      Stock: data.fourYrRSU / (100 / data.vestPercent),
+      Bonus: data.targetBonus,
     },
     {
       name: "Year 3",
-      "Base Salary": salaries.third,
-      Stock: fourYrRSU / (100 / vestPercent),
-      Bonus: targetBonus,
+      "Base Salary": data.third,
+      Stock: data.fourYrRSU / (100 / data.vestPercent),
+      Bonus: data.targetBonus,
     },
     {
       name: "Year 4",
-      "Base Salary": salaries.fourth,
-      Stock: fourYrRSU / (100 / vestPercent),
-      Bonus: targetBonus,
+      "Base Salary": data.fourth,
+      Stock: data.fourYrRSU / (100 / data.vestPercent),
+      Bonus: data.targetBonus,
     },
   ];
 
   //Save values to db for link
   function updateLink(url) {
-    fetch("localhost:8080/api/data", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        url: url,
-        base_salary: salaries.first,
-        percent_raise: percentRaise,
-        target_bonus: targetBonus,
-        four_yr_RSU: fourYrRSU,
-        vest_percent: vestPercent,
-      },
-    }).then((response) => setURL(response.url));
+    // fetch("http://localhost:8080/api/data", {
+    //   method: "PUT", // or 'PUT'
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     url: url,
+    //     base_salary: parseInt(data.first),
+    //     percent_raise: parseInt(data.percentRaise),
+    //     target_bonus: parseInt(data.targetBonus),
+    //     four_yr_RSU: parseInt(data.fourYrRSU),
+    //     vest_percent: parseInt(data.vestPercent),
+    //   }),
+    // }).then(function(response) {
+    //   return response.json();
+    // }).then(function(result) {
+    //   console.log(result);
+    // })
+    // .catch(err => console.log(err));
   }
 
   function addLink() {
-    fetch("localhost:8080/api/data", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        base_salary: salaries.first,
-        percent_raise: percentRaise,
-        target_bonus: targetBonus,
-        four_yr_RSU: fourYrRSU,
-        vest_percent: vestPercent,
-      },
-    }).then((response) => setURL(response.url));
+    // fetch("http://localhost:8080/api/data", {
+    //   method: "POST", // or 'PUT'
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body:JSON.stringify({
+    //     base_salary: data.first,
+    //     percent_raise: data.percentRaise,
+    //     target_bonus: data.targetBonus,
+    //     four_yr_RSU: data.fourYrRSU,
+    //     vest_percent: data.vestPercent })
+    // }).then(function(response) {
+    //   return response.json();
+    // }).then(function(data) {
+    //   window.location.href+=data.data.url;
+    //   setURL(data.data.url)
+    // })
+    // .catch(err => console.log(err));
+  }
+
+  function loadData(url) {
+    // fetch("http://localhost:8080/api/data/"+url, {
+    //   method: "GET", // or 'PUT'
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   }
+    // }).then(function(response) {
+    //   return response.json();
+    // }).then(function(result) {
+    //   setData({
+    //     first: result.base_salary,
+    //     second: getAnnualRaise(2, result.base_salary, result.percent_raise),
+    //     third: getAnnualRaise(3, result.base_salary, result.percent_raise),
+    //     fourth: getAnnualRaise(4, result.base_salary, result.percent_raise),
+    //     percentRaise: result.percent_raise,
+    //     targetBonus: result.target_bonus,
+    //     fourYrRSU: result.four_yr_RSU,
+    //     vestPercent: result.vest_percent,
+    //   })
+    //   setURL(url);
+    //   setLoaded(true);
+    // })
+    // .catch(err => console.log(err));
   }
 
   return (
     <div>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <img src={require("./assets/logo.png")} alt="Logo" />
+      <Grid container spacing={2}>
+        <img src={require("./assets/logo.png")} alt="Logo" />
 
-          <text>URL to Share & Save:</text>
+        <Grid item xs={4}>
+          <h4>URL to Share & Save:</h4>
           <TextField
             id="outlined-read-only-input"
-            defaultValue="http://localhost:3000/fds398"
+            defaultValue={window.location.href}
             InputProps={{
               readOnly: true,
             }}
@@ -114,93 +170,127 @@ function App() {
             Copy
           </Button>
         </Grid>
+
         <Grid item xs={8}>
-          <text>Salary Statistics</text>
+          <h2>Salary Statistics</h2>
           <StatePicker></StatePicker>
         </Grid>
         <Grid item xs={4}>
-          <text>Your market value {salaries.first}</text>
+          <h2>Your Market Value: {data.first}</h2>
         </Grid>
         <Grid item xs={3}>
-          <TextField
-            id="filled-number"
-            type="number"
-            label="Salary (yearly)"
-            variant="filled"
-            color="secondary"
-            value={salaries.first}
-            onChange={(e) => {
-              setSalaries({
-                first: e.target.value,
-                second: getAnnualRaise(2, e.target.value, percentRaise),
-                third: getAnnualRaise(3, e.target.value, percentRaise),
-                fourth: getAnnualRaise(4, e.target.value, percentRaise),
-              });
-              updateLink();
-            }}
-          ></TextField>
-          <TextField
-            id="filled-number"
-            type="number"
-            label="Annual Raise (%)"
-            variant="filled"
-            value={percentRaise}
-            onChange={(e) => {
-              setPercentRaise(e.target.value);
-              setSalaries({
-                first: salaries.first,
-                second: getAnnualRaise(2, salaries.first, e.target.value),
-                third: getAnnualRaise(3, salaries.first, e.target.value),
-                fourth: getAnnualRaise(4, salaries.first, e.target.value),
-              });
-              updateLink();
-            }}
-          ></TextField>
-          <TextField
-            id="filled-number"
-            type="number"
-            label="Performance Bonus ($)"
-            variant="filled"
-            value={targetBonus}
-            onChange={(e) => {
-              setTargetBonus(e.target.value);
-              updateLink();
-            }}
-          ></TextField>
-          <TextField
-            id="filled-number"
-            type="number"
-            label="Stock Award Value (4 years)"
-            variant="filled"
-            value={fourYrRSU}
-            onChange={(e) => {
-              setFourYrRSU(e.target.value);
-              updateLink();
-            }}
-          ></TextField>
-          <TextField
-            id="filled-number"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            variant="filled"
-            value={vestPercent}
-            onChange={(e) => {
-              setVestPercent(e.target.value);
-              updateLink();
-            }}
-          ></TextField>
+          <Box p={3}>
+            <CurrencyTextField
+              label="Salary (yearly)"
+              color="secondary"
+              currencySymbol="$"
+              value={data.first}
+              onChange={(e) => {
+                setData({
+                  first: e.target.value,
+                  second: getAnnualRaise(2, e.target.value, data.percentRaise),
+                  third: getAnnualRaise(3, e.target.value, data.percentRaise),
+                  fourth: getAnnualRaise(4, e.target.value, data.percentRaise),
+                  percentRaise: data.percentRaise,
+                  targetBonus: data.targetBonus,
+                  fourYrRSU: data.fourYrRSU,
+                  vestPercent: data.vestPercent,
+                });
+              }}
+            ></CurrencyTextField>
+          </Box>
+
+          <Box p={3}>
+            <CurrencyTextField
+              label="Annual Raise (%)"
+              currencySymbol="%"
+              value={data.percentRaise}
+              onChange={(e) => {
+                setData({
+                  first: data.first,
+                  second: getAnnualRaise(2, data.first, e.target.value),
+                  third: getAnnualRaise(3, data.first, e.target.value),
+                  fourth: getAnnualRaise(4, data.first, e.target.value),
+                  percentRaise: e.target.value,
+                  targetBonus: data.targetBonus,
+                  fourYrRSU: data.fourYrRSU,
+                  vestPercent: data.vestPercent,
+                });
+              }}
+            ></CurrencyTextField>
+          </Box>
+          <Box p={3}>
+            <CurrencyTextField
+              label="Performance Bonus ($)"
+              currencySymbol="$"
+              value={data.targetBonus}
+              onChange={(e) => {
+                setData({
+                  first: data.first,
+                  second: data.second,
+                  third: data.third,
+                  fourth: data.fourth,
+                  percentRaise: data.percentRaise,
+                  targetBonus: e.target.value,
+                  fourYrRSU: data.fourYrRSU,
+                  vestPercent: data.vestPercent,
+                });
+                // updateLink(url);
+              }}
+            ></CurrencyTextField>
+          </Box>
+          <Box p={3}>
+            <CurrencyTextField
+              label="Stock Award Value (4 years)"
+              currencySymbol="$"
+              value={data.fourYrRSU}
+              onChange={(e) => {
+                setData({
+                  first: data.first,
+                  second: data.second,
+                  third: data.third,
+                  fourth: data.fourth,
+                  percentRaise: data.percentRaise,
+                  targetBonus: data.targetBonus,
+                  fourYrRSU: e.target.value,
+                  vestPercent: data.vestPercent,
+                });
+                // updateLink(url);
+              }}
+            ></CurrencyTextField>
+          </Box>
+          <Box p={3}>
+            <CurrencyTextField
+              label="Yearly Vest Amount (%)"
+              currencySymbol="%"
+              value={data.vestPercent}
+              onChange={(e) => {
+                setData({
+                  first: data.first,
+                  second: data.second,
+                  third: data.third,
+                  fourth: data.fourth,
+                  percentRaise: data.percentRaise,
+                  targetBonus: data.targetBonus,
+                  fourYrRSU: data.fourYrRSU,
+                  vestPercent: e.target.value,
+                });
+                // updateLink(url);
+              }}
+            ></CurrencyTextField>
+          </Box>
         </Grid>
         <Grid item xs={6}>
-          <text>Projected Total Compensation</text>
-          <CompensationBar value={data}></CompensationBar>
-          <text>Compensation Breakdown</text>
-          <CompensationPie value={data}></CompensationPie>
+          <h3>Projected Total Compensation</h3>
+          <CompensationBar value={graphData}></CompensationBar>
+          <h3>Compensation Breakdown</h3>
+          <CompensationPie value={graphData}></CompensationPie>
         </Grid>
         <Grid item xs={3}>
-          <text>Tax Breakdown</text>
-          <TaxPie value={data}></TaxPie>
-          <text>Recent Entries</text>
-          <RecentDataScatter value={data}></RecentDataScatter>
+          <h3>Tax Breakdown</h3>
+          <TaxPie value={graphData}></TaxPie>
+          <h3>Recent Entries</h3>
+          <RecentDataScatter value={graphData}></RecentDataScatter>
         </Grid>
       </Grid>
     </div>
