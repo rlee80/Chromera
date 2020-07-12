@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Box, Grid, TextField } from "@material-ui/core";
 import CompensationBar from "./components/CompensationBar";
 import CompensationPie from "./components/CompensationPie";
+import TaxPie from "./components/TaxPie";
+import StatePicker from "./components/StatePicker";
 
 function App() {
   const [baseSalary, setBaseSalary] = useState(0);
@@ -14,9 +16,9 @@ function App() {
   const data = [
     {
       name: "Year 1",
-      "Base Salary": 100000,
-      Stock: 60000,
-      Bonus: 10000,
+      "Base Salary": baseSalary,
+      Stock: fourYrRSU,
+      Bonus: targetBonus,
     },
     {
       name: "Year 2",
@@ -44,24 +46,37 @@ function App() {
 
       <con rid container direction="row" justify="center" alignItems="center">
         <Grid container direction="column" justify="center" alignItems="center">
+          <StatePicker></StatePicker>
           <TextField
             id="filled-number"
             type="number"
             label="Base Salary (Yearly)"
             variant="filled"
             color="secondary"
+            value={baseSalary}
+            onChange={(e) => {
+              setBaseSalary(e.target.value);
+            }}
           ></TextField>
           <TextField
             id="filled-number"
             type="number"
             label="Target Bonus"
             variant="filled"
+            value={targetBonus}
+            onChange={(e) => {
+              setTargetBonus(e.target.value);
+            }}
           ></TextField>
           <TextField
             id="filled-number"
             type="number"
             label="Stock Award (4 Years)"
             variant="filled"
+            value={fourYrRSU}
+            onChange={(e) => {
+              setFourYrRSU(e.target.value);
+            }}
           ></TextField>
         </Grid>
       </con>
@@ -72,6 +87,9 @@ function App() {
         <text>Compensation Breakdown</text>
         <CompensationPie value={data}></CompensationPie>
       </Grid>
+
+      <text>Tax Breakdown</text>
+      <TaxPie value={data}></TaxPie>
     </Box>
   );
 }
