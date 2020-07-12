@@ -18,17 +18,27 @@ const data01 = [
   { x: 150, y: 400, z: 500 },
   { x: 110, y: 280, z: 200 },
 ];
-const data02 = [
-  { x: 200, y: 260, z: 240 },
-  { x: 240, y: 290, z: 220 },
-  { x: 190, y: 290, z: 250 },
-  { x: 198, y: 250, z: 210 },
-  { x: 180, y: 280, z: 260 },
-  { x: 210, y: 220, z: 230 },
-];
+// const data02 = [
+//   { x: 200, y: 260, z: 240 },
+//   { x: 240, y: 290, z: 220 },
+//   { x: 190, y: 290, z: 250 },
+//   { x: 198, y: 250, z: 210 },
+//   { x: 180, y: 280, z: 260 },
+//   { x: 210, y: 220, z: 230 },
+// ];
 
 export default class RecentDataScatter extends PureComponent {
+
+  constructor(props){
+    super(props);
+  }
+
   render() {
+    var data = [];
+    this.props.recentData.map(row => {
+      data.push({x: row.base_salary, y: row.four_yr_RSU, z: 200})
+    })
+    
     return (
       <ScatterChart
         width={350}
@@ -55,18 +65,18 @@ export default class RecentDataScatter extends PureComponent {
         <Legend />
         <Scatter
           name="Placeholder 1"
-          data={data01}
+          data={data}
           fill="#8884d8"
           line
           shape="cross"
         />
-        <Scatter
+        {/* <Scatter
           name="Placeholder 2"
           data={data02}
           fill="#82bce0"
           line
           shape="diamond"
-        />
+        /> */}
       </ScatterChart>
     );
   }

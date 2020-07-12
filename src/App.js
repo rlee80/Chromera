@@ -151,9 +151,34 @@ function App() {
     // .catch(err => console.log(err));
   }
 
+  function loadRecentData(){
+    var recentData = [{
+      "base_salary": 120000,
+      "four_yr_RSU": 45000
+    },
+    {
+      "base_salary": 21,
+      "four_yr_RSU": 30
+    },
+    {
+      "base_salary": 150000,
+      "four_yr_RSU": 45000
+    }];
+    // fetch("http://localhost:8080/api/recentData", {
+    //   method: "GET", // or 'PUT'
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   }
+    // }).then(function(response) {
+    //   return response.json();
+    // }).then(function(result) {console.log(result); recentData = result;});
+    return recentData;
+  }
+
   return (
     <div>
       <Grid container spacing={2}>
+        
         <img src={require("./assets/logo.png")} alt="Logo" />
 
         <Grid item xs={4}>
@@ -203,7 +228,7 @@ function App() {
                 value={data.first}
                 onChange={(e) => {
                   setData({
-                    first: e.target.value,
+                    first: parseFloat(e.target.value),
                     second: getAnnualRaise(
                       2,
                       e.target.value,
@@ -372,7 +397,7 @@ function App() {
             }}
           >
             <h3>Recent Entries</h3>
-            <RecentDataScatter value={graphData}></RecentDataScatter>
+            <RecentDataScatter value={graphData} recentData = {loadRecentData()} ></RecentDataScatter>
           </div>
         </Grid>
       </Grid>
