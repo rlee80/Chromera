@@ -6,11 +6,12 @@ import TaxPie from "./components/TaxPie";
 import StatePicker from "./components/StatePicker";
 
 function getAnnualRaise(finalYr, baseSalary, percentRaise) {
-  //DO yearly compensation calculations here
   var output = baseSalary;
   while (finalYr-- > 0) {
-    output = output * (1 + percentRaise / 100);
+    output = output * (1.0 + (percentRaise * 1.0) / 100.0);
+    // console.log(1.0 + ((percentRaise * 1.0) / 100));
   }
+  // alert(1.0 + ((percentRaise * 1.0) / 100));
   return output;
 }
 
@@ -57,15 +58,15 @@ function App() {
   //updates the salaries
   function updateSalaries() {
     setSecondSalary(getAnnualRaise(2, baseSalary, percentRaise));
-    setSecondSalary(getAnnualRaise(3, baseSalary, percentRaise));
-    setSecondSalary(getAnnualRaise(4, baseSalary, percentRaise));
+    setThirdSalary(getAnnualRaise(3, baseSalary, percentRaise));
+    setFourthSalary(getAnnualRaise(4, baseSalary, percentRaise));
   }
 
   return (
     <div>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <img src={require("./logo.png")} alt="Logo" />
+          <img src={require("./assets/logo.png")} alt="Logo" />
 
           <text>URL to Share & Save:</text>
           <TextField
@@ -85,7 +86,7 @@ function App() {
           <StatePicker></StatePicker>
         </Grid>
         <Grid item xs={4}>
-          <text>Your market value placeholder</text>
+          <text>Your market value {baseSalary}</text>
         </Grid>
         <Grid item xs={3}>
           <TextField
@@ -109,6 +110,7 @@ function App() {
             value={percentRaise}
             onChange={(e) => {
               setPercentRaise(e.target.value);
+              updateSalaries();
               updateLink();
             }}
           ></TextField>
@@ -120,7 +122,6 @@ function App() {
             value={targetBonus}
             onChange={(e) => {
               setTargetBonus(e.target.value);
-              updateSalaries();
               updateLink();
             }}
           ></TextField>
@@ -167,11 +168,11 @@ function App() {
           <text>Projected Total Compensation</text>
           <CompensationBar value={data}></CompensationBar>
           <text>Compensation Breakdown</text>
-          <CompensationPie value={data}></CompensationPie>{" "}
+          <CompensationPie value={data}></CompensationPie>
         </Grid>
         <Grid item xs={3}>
           <text>Tax Breakdown</text>
-          <TaxPie value={data}></TaxPie>{" "}
+          <TaxPie value={data}></TaxPie>
         </Grid>
       </Grid>
     </div>
