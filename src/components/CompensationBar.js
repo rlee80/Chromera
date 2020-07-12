@@ -31,9 +31,9 @@ export default class CompensationBar extends PureComponent {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="Base Salary" stackId="a" fill="#8884d8" />
-        <Bar dataKey="Stock" stackId="a" fill="#82ca9d" />
-        <Bar dataKey="Bonus" stackId="a" fill="#ffc658" />
+        <Bar dataKey="Base Salary" stackId="a" fill="#b14da5" />
+        <Bar dataKey="Stock" stackId="a" fill="#6262f1" />
+        <Bar dataKey="Bonus" stackId="a" fill="#8acdf7" />
       </BarChart>
     );
   }

@@ -43,21 +43,27 @@ export default class RecentDataScatter extends PureComponent {
         <CartesianGrid />
         <XAxis type="number" dataKey="x" name="stature" unit="cm" />
         <YAxis type="number" dataKey="y" name="weight" unit="kg" />
-        <ZAxis type="number" dataKey="z" range={[100, 400]} name="score" unit="km" />
+        <ZAxis
+          type="number"
+          dataKey="z"
+          range={[100, 400]}
+          name="score"
+          unit="km"
+        />
 
         <Tooltip cursor={{ strokeDasharray: "3 3" }} />
         <Legend />
         <Scatter
-          name="A school"
+          name="Placeholder 1"
           data={data01}
           fill="#8884d8"
           line
           shape="cross"
         />
         <Scatter
-          name="B school"
+          name="Placeholder 2"
           data={data02}
-          fill="#82ca9d"
+          fill="#82bce0"
           line
           shape="diamond"
         />

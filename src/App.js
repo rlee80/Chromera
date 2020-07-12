@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, TextField, Button, Grid } from "@material-ui/core";
 import CompensationBar from "./components/CompensationBar";
 import CompensationPie from "./components/CompensationPie";
@@ -28,6 +28,11 @@ function App() {
   const [targetBonus, setTargetBonus] = useState(0);
   const [fourYrRSU, setFourYrRSU] = useState(0);
   const [vestPercent, setVestPercent] = useState(25);
+  const [url, setURL] = useState("default");
+
+  useEffect(() => {
+    // addLink();
+  });
 
   const data = [
     {
@@ -57,7 +62,38 @@ function App() {
   ];
 
   //Save values to db for link
-  function updateLink() {}
+  function updateLink(url) {
+    fetch("localhost:8080/api/data", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        url: url,
+        base_salary: salaries.first,
+        percent_raise: percentRaise,
+        target_bonus: targetBonus,
+        four_yr_RSU: fourYrRSU,
+        vest_percent: vestPercent,
+      },
+    }).then((response) => setURL(response.url));
+  }
+
+  function addLink() {
+    fetch("localhost:8080/api/data", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        base_salary: salaries.first,
+        percent_raise: percentRaise,
+        target_bonus: targetBonus,
+        four_yr_RSU: fourYrRSU,
+        vest_percent: vestPercent,
+      },
+    }).then((response) => setURL(response.url));
+  }
 
   return (
     <div>
@@ -144,22 +180,6 @@ function App() {
           ></TextField>
           <TextField
             id="filled-number"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
-            type="number"
-            label="Yearly Vest Amount (%)"
             type="number"
             label="Yearly Vest Amount (%)"
             variant="filled"

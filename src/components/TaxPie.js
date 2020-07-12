@@ -7,7 +7,7 @@ const data = [
   { name: "Group C", value: 300 },
   { name: "Group D", value: 200 },
 ];
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#C7A5F1", "#858C94", "#C6CCE3", "#9FA8E0"];
 
 export default class TaxPie extends PureComponent {
   render() {
@@ -17,22 +17,6 @@ export default class TaxPie extends PureComponent {
           data={data}
           cx={120}
           cy={200}
-          innerRadius={60}
-          outerRadius={80}
-          fill="#8884d8"
-          paddingAngle={5}
-          dataKey="value"
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Pie
-          data={data}
-          cx={420}
-          cy={200}
-          startAngle={180}
-          endAngle={0}
           innerRadius={60}
           outerRadius={80}
           fill="#8884d8"
