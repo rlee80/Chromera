@@ -3,6 +3,12 @@ import { PieChart, Pie, Sector, Cell } from "recharts";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
+const data = [
+  { name: "Group A", value: 400 },
+  { name: "Group B", value: 300 },
+  { name: "Group C", value: 300 },
+  { name: "Group D", value: 200 },
+];
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
   cx,
@@ -38,7 +44,7 @@ export default class CompensationPie extends PureComponent {
     return (
       <PieChart width={400} height={400}>
         <Pie
-          data={this.props.value}
+          data={data}
           cx={200}
           cy={200}
           labelLine={false}
@@ -47,7 +53,7 @@ export default class CompensationPie extends PureComponent {
           fill="#8884d8"
           dataKey="value"
         >
-          {this.props.value.map((entry, index) => (
+          {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
