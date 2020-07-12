@@ -1,5 +1,3 @@
-![Logo](https://raw.githubusercontent.com/rlee80/Chromera/master/src/assets/logo.png)
-
 # Chromera
 Chromera is a web application that allows tech professionals to easily analyze and understand how their total compensation statement is broken down by using a variety of different visuals. Tech compensation is made up of base salary, a target bonus, stock grants (over 4 years), and sign-on bonuses (in addition to relocation assistance and other perks). By entering data into the various fields, the user can easily calculate and visualize their compensation. Once they're done, they can share their unique URL with their friends and family, and compare the  results!
 
