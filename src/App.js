@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Grid, TextField, Button } from "@material-ui/core";
+import { Box, TextField, Button, Grid } from "@material-ui/core";
 import CompensationBar from "./components/CompensationBar";
 import CompensationPie from "./components/CompensationPie";
 import TaxPie from "./components/TaxPie";
@@ -9,13 +9,16 @@ function getAnnualRaise(finalYr, baseSalary, percentRaise) {
   //DO yearly compensation calculations here
   var output = baseSalary;
   while (finalYr-- > 0) {
-    output = output * (1 + (100 / percentRaise));
+    output = output * (1 + percentRaise / 100);
   }
   return output;
 }
 
 function App() {
   const [baseSalary, setBaseSalary] = useState(0);
+  const [secondSalary, setSecondSalary] = useState(0);
+  const [thirdSalary, setThirdSalary] = useState(0);
+  const [fourthSalary, setFourthSalary] = useState(0);
   const [percentRaise, setPercentRaise] = useState(0);
   const [targetBonus, setTargetBonus] = useState(0);
   const [fourYrRSU, setFourYrRSU] = useState(0);
@@ -30,19 +33,19 @@ function App() {
     },
     {
       name: "Year 2",
-      "Base Salary": getAnnualRaise(2, baseSalary, percentRaise),
+      "Base Salary": secondSalary,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
     {
       name: "Year 3",
-      "Base Salary": getAnnualRaise(3, baseSalary, percentRaise),
+      "Base Salary": thirdSalary,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
     {
       name: "Year 4",
-      "Base Salary": getAnnualRaise(4, baseSalary, percentRaise),
+      "Base Salary": fourthSalary,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
@@ -51,26 +54,40 @@ function App() {
   //Save values to db for link
   function updateLink() {}
 
+  //updates the salaries
+  function updateSalaries() {
+    setSecondSalary(getAnnualRaise(2, baseSalary, percentRaise));
+    setSecondSalary(getAnnualRaise(3, baseSalary, percentRaise));
+    setSecondSalary(getAnnualRaise(4, baseSalary, percentRaise));
+  }
+
   return (
-    <Box component="span" m={1}>
-      <img src={require("./logo.png")} alt="Logo" />
+    <div>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <img src={require("./logo.png")} alt="Logo" />
 
-      <text>URL to Share & Save:</text>
-      <TextField
-        id="outlined-read-only-input"
-        defaultValue="http://localhost:3000/fds398"
-        InputProps={{
-          readOnly: true,
-        }}
-        variant="outlined"
-      />
-      <Button variant="contained" color="primary">
-        Copy
-      </Button>
-
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Grid container direction="column" justify="center" alignItems="center">
+          <text>URL to Share & Save:</text>
+          <TextField
+            id="outlined-read-only-input"
+            defaultValue="http://localhost:3000/fds398"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+          <Button variant="contained" color="primary">
+            Copy
+          </Button>
+        </Grid>
+        <Grid item xs={8}>
+          <text>Salary Statistics</text>
           <StatePicker></StatePicker>
+        </Grid>
+        <Grid item xs={4}>
+          <text>Your market value placeholder</text>
+        </Grid>
+        <Grid item xs={3}>
           <TextField
             id="filled-number"
             type="number"
@@ -80,6 +97,7 @@ function App() {
             value={baseSalary}
             onChange={(e) => {
               setBaseSalary(e.target.value);
+              updateSalaries();
               updateLink();
             }}
           ></TextField>
@@ -102,6 +120,7 @@ function App() {
             value={targetBonus}
             onChange={(e) => {
               setTargetBonus(e.target.value);
+              updateSalaries();
               updateLink();
             }}
           ></TextField>
@@ -120,6 +139,22 @@ function App() {
             id="filled-number"
             type="number"
             label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
+            type="number"
+            label="Yearly Vest Amount (%)"
             variant="filled"
             value={vestPercent}
             onChange={(e) => {
@@ -128,24 +163,18 @@ function App() {
             }}
           ></TextField>
         </Grid>
-        <Grid container direction="column" justify="center" alignItems="center">
+        <Grid item xs={6}>
           <text>Projected Total Compensation</text>
           <CompensationBar value={data}></CompensationBar>
           <text>Compensation Breakdown</text>
-          <CompensationPie value={data}></CompensationPie>
+          <CompensationPie value={data}></CompensationPie>{" "}
+        </Grid>
+        <Grid item xs={3}>
+          <text>Tax Breakdown</text>
+          <TaxPie value={data}></TaxPie>{" "}
         </Grid>
       </Grid>
-
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-      ></Grid>
-
-      <text>Tax Breakdown</text>
-      <TaxPie value={data}></TaxPie>
-    </Box>
+    </div>
   );
 }
 
