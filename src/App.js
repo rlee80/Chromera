@@ -4,19 +4,23 @@ import CompensationBar from "./components/CompensationBar";
 import CompensationPie from "./components/CompensationPie";
 import TaxPie from "./components/TaxPie";
 import StatePicker from "./components/StatePicker";
+import RecentDataScatter from "./components/RecentDataScatter";
 
 function getAnnualRaise(finalYr, baseSalary, percentRaise) {
   var output = baseSalary;
-  while (finalYr-- > 0) {
-    output = output * (1.0 + (percentRaise * 1.0) / 100.0);
-    // console.log(1.0 + ((percentRaise * 1.0) / 100));
+  while (finalYr-- > 1) {
+    output = output * parseFloat(1.0 + (percentRaise * 1.0) / 100.0);
   }
-  // alert(1.0 + ((percentRaise * 1.0) / 100));
   return output;
 }
 
 function App() {
-  const [baseSalary, setBaseSalary] = useState(0);
+  const [salaries, setSalaries] = useState({
+    first: 0,
+    second: 0,
+    third: 0,
+    fourth: 0,
+  });
   const [secondSalary, setSecondSalary] = useState(0);
   const [thirdSalary, setThirdSalary] = useState(0);
   const [fourthSalary, setFourthSalary] = useState(0);
@@ -28,25 +32,25 @@ function App() {
   const data = [
     {
       name: "Year 1",
-      "Base Salary": baseSalary,
+      "Base Salary": salaries.first,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
     {
       name: "Year 2",
-      "Base Salary": secondSalary,
+      "Base Salary": salaries.second,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
     {
       name: "Year 3",
-      "Base Salary": thirdSalary,
+      "Base Salary": salaries.third,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
     {
       name: "Year 4",
-      "Base Salary": fourthSalary,
+      "Base Salary": salaries.fourth,
       Stock: fourYrRSU / (100 / vestPercent),
       Bonus: targetBonus,
     },
@@ -54,13 +58,6 @@ function App() {
 
   //Save values to db for link
   function updateLink() {}
-
-  //updates the salaries
-  function updateSalaries() {
-    setSecondSalary(getAnnualRaise(2, baseSalary, percentRaise));
-    setThirdSalary(getAnnualRaise(3, baseSalary, percentRaise));
-    setFourthSalary(getAnnualRaise(4, baseSalary, percentRaise));
-  }
 
   return (
     <div>
@@ -86,7 +83,7 @@ function App() {
           <StatePicker></StatePicker>
         </Grid>
         <Grid item xs={4}>
-          <text>Your market value {baseSalary}</text>
+          <text>Your market value {salaries.first}</text>
         </Grid>
         <Grid item xs={3}>
           <TextField
@@ -95,10 +92,14 @@ function App() {
             label="Salary (yearly)"
             variant="filled"
             color="secondary"
-            value={baseSalary}
+            value={salaries.first}
             onChange={(e) => {
-              setBaseSalary(e.target.value);
-              updateSalaries();
+              setSalaries({
+                first: e.target.value,
+                second: getAnnualRaise(2, e.target.value, percentRaise),
+                third: getAnnualRaise(3, e.target.value, percentRaise),
+                fourth: getAnnualRaise(4, e.target.value, percentRaise),
+              });
               updateLink();
             }}
           ></TextField>
@@ -110,7 +111,12 @@ function App() {
             value={percentRaise}
             onChange={(e) => {
               setPercentRaise(e.target.value);
-              updateSalaries();
+              setSalaries({
+                first: salaries.first,
+                second: getAnnualRaise(2, salaries.first, e.target.value),
+                third: getAnnualRaise(3, salaries.first, e.target.value),
+                fourth: getAnnualRaise(4, salaries.first, e.target.value),
+              });
               updateLink();
             }}
           ></TextField>
@@ -173,6 +179,8 @@ function App() {
         <Grid item xs={3}>
           <text>Tax Breakdown</text>
           <TaxPie value={data}></TaxPie>
+          <text>Recent Entries</text>
+          <RecentDataScatter value={data}></RecentDataScatter>
         </Grid>
       </Grid>
     </div>
